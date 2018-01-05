@@ -8,17 +8,10 @@
 
 #import "RCTWeChat.h"
 #import "WXApiObject.h"
-#if __has_include(<React/RCTEventDispatcher.h>)
-#import <React/RCTEventDispatcher.h>
-#import <React/RCTBridge.h>
-#import <React/RCTLog.h>
-#import <React/RCTImageLoader.h>
-#else
-#import "RCTBridge.h"
 #import "RCTEventDispatcher.h"
+#import "RCTBridge.h"
 #import "RCTLog.h"
 #import "RCTImageLoader.h"
-#endif
 
 // Define error messages
 #define NOT_REGISTERED (@"registerApp required.")
@@ -60,10 +53,6 @@ RCT_EXPORT_MODULE()
 - (dispatch_queue_t)methodQueue
 {
     return dispatch_get_main_queue();
-}
-
-+ (BOOL)requiresMainQueueSetup {
-    return YES;
 }
 
 RCT_EXPORT_METHOD(registerApp:(NSString *)appid
@@ -159,12 +148,6 @@ RCT_EXPORT_METHOD(shareToSession:(NSDictionary *)data
                   :(RCTResponseSenderBlock)callback)
 {
     [self shareToWeixinWithData:data scene:WXSceneSession callback:callback];
-}
-
-RCT_EXPORT_METHOD(shareToFavorite:(NSDictionary *)data
-                  :(RCTResponseSenderBlock)callback)
-{
-    [self shareToWeixinWithData:data scene:WXSceneFavorite callback:callback];
 }
 
 RCT_EXPORT_METHOD(pay:(NSDictionary *)data
