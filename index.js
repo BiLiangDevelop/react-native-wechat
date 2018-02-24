@@ -1,7 +1,6 @@
 "use strict";
 
 import { DeviceEventEmitter, NativeModules } from 'react-native';
-import promisify from 'es6-promisify';
 import { EventEmitter } from 'events';
 
 let isAppRegistered = false;
@@ -13,6 +12,14 @@ const emitter = new EventEmitter();
 DeviceEventEmitter.addListener('WeChat_Resp', (resp) => {
   emitter.emit(resp.type, resp);
 });
+
+function promisify(fn, handler) {
+    return function (...args) {
+        return new Promise(function (resolve, reject) {
+            fn(...args, handler.bind({ resolve, reject }))
+        })
+    }
+}
 
 // Used only with promisify. Transform callback to promise result.
 function translateError(err, result) {
